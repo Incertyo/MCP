@@ -1,13 +1,21 @@
+import os
+import tempfile
 from pathlib import Path
 
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
+def default_data_file() -> Path:
+    if os.getenv("VERCEL"):
+        return Path(tempfile.gettempdir()) / "cloud_optimizer_mcp_state.json"
+    return Path(__file__).resolve().parents[1] / ".local" / "prism_state.json"
+
+
 class Settings(BaseSettings):
     app_name: str = "Prism Cloud Optimizer Demo"
     api_prefix: str = "/api"
-    data_file: Path = Field(default=Path(__file__).resolve().parents[1] / ".local" / "prism_state.json", alias="PRISM_DATA_FILE")
+    data_file: Path = Field(default_factory=default_data_file, alias="PRISM_DATA_FILE")
     use_dynamodb: bool = Field(default=False, alias="PRISM_USE_DYNAMODB")
     dynamodb_region: str = Field(default="ap-south-1", alias="PRISM_DYNAMODB_REGION")
     dynamodb_table_prefix: str = Field(default="prism_demo", alias="PRISM_DYNAMODB_TABLE_PREFIX")
