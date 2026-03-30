@@ -374,6 +374,8 @@ function DashboardPage({
     );
   }
 
+  const account = data.account;
+
   return (
     <div className="page-grid">
       <section className="summary-row reveal reveal-3">
@@ -387,14 +389,14 @@ function DashboardPage({
         <div className="surface-header">
           <div>
             <span className="section-kicker">Profile</span>
-            <h2>{data.account.student_name}</h2>
+            <h2>{account.student_name}</h2>
           </div>
-          <span className="badge">{data.account.connection_mode} AWS</span>
+          <span className="badge">{account.connection_mode} AWS</span>
         </div>
         <p className="muted-text">
-          {data.account.institution} in {data.account.region}. The dashboard is intentionally spare so changes feel immediate, clean, and readable in both themes.
+          {account.institution} in {account.region}. The dashboard is intentionally spare so changes feel immediate, clean, and readable in both themes.
         </p>
-        <span className="mono-inline">account://{data.account.aws_account_id}</span>
+        <span className="mono-inline">account://{account.aws_account_id}</span>
       </section>
 
       <section className="surface wide reveal reveal-4">
@@ -506,7 +508,7 @@ function DashboardPage({
               busy={busy}
               onRecommendation={onRecommendation}
               onRecurringRecommendation={onRecurringRecommendation}
-              isMockMode={data.account.connection_mode === "mocked"}
+              isMockMode={account.connection_mode === "mocked"}
               transitionState={transitioningRecommendation?.id === item.id ? transitioningRecommendation.action : null}
             />
           ))}
