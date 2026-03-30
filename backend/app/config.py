@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     gemini_model: str = Field(default="gemini-2.5-flash", alias="GEMINI_MODEL")
     gemini_api_base: str = Field(default="https://generativelanguage.googleapis.com/v1beta", alias="GEMINI_API_BASE")
     gemini_timeout_seconds: float = Field(default=20.0, alias="GEMINI_TIMEOUT_SECONDS")
-    frontend_origin: str = "http://localhost:5173"
+    frontend_origin: str = Field(default="http://localhost:5173", alias="PRISM_FRONTEND_ORIGIN")
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
 

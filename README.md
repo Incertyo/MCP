@@ -1,4 +1,4 @@
-# Prism Cloud Optimizer Demo
+# Cloud Optimizer MCP Demo
 
 A net-new demo application with:
 
@@ -25,7 +25,7 @@ npm install
 npm run dev
 ```
 
-The frontend expects the backend at `http://localhost:8000`.
+The frontend uses `VITE_API_BASE` when set. If it is missing, it falls back to the current origin plus `/api`.
 
 ## Environment
 
@@ -42,7 +42,8 @@ Backend variables:
 - `DD_APP_KEY=...` (optional, improves Datadog API compatibility)
 - `DD_SITE=datadoghq.com`
 - `DD_ENV=demo`
-- `DD_SERVICE=prism-backend`
+- `DD_SERVICE=cloud-optimizer-mcp-backend`
+- `PRISM_FRONTEND_ORIGIN=http://localhost:5173`
 
 When DynamoDB credentials are configured and `PRISM_USE_DYNAMODB=true`, the repository switches from local JSON persistence to DynamoDB tables. Datadog metrics and events are optional; the app also keeps mirrored telemetry for the in-app observability panel.
 
@@ -57,6 +58,45 @@ uvicorn app.main:app --reload --port 8000
 ```
 
 The backend keeps recommendations deterministic and uses Gemini only for the chatbot explanation layer. If the Gemini key is missing or the API call fails, the chatbot falls back to the built-in rule-based responses.
+
+## Vercel deployment
+
+The simplest production setup is two Vercel projects from the same GitHub repository:
+
+1. `backend` project
+2. `frontend` project
+
+### Backend on Vercel
+
+- Import the GitHub repo in Vercel
+- Set the Root Directory to `backend`
+- Vercel will use `backend/index.py` as the FastAPI entry point
+- Add environment variables manually in Vercel:
+  - `PRISM_FRONTEND_ORIGIN=https://YOUR_FRONTEND_DOMAIN`
+  - `GEMINI_API_KEY=...` if you want Gemini enabled
+  - `GEMINI_MODEL=gemini-2.5-flash`
+  - `DD_API_KEY=...` if you want Datadog
+  - `DD_APP_KEY=...` optional
+  - `DD_SITE=datadoghq.com`
+  - `DD_ENV=production`
+  - `DD_SERVICE=cloud-optimizer-mcp-backend`
+  - DynamoDB variables only if you want DynamoDB instead of local demo state
+
+### Frontend on Vercel
+
+- Import the same GitHub repo again in Vercel
+- Set the Root Directory to `frontend`
+- Add this environment variable manually:
+  - `VITE_API_BASE=https://YOUR_BACKEND_DOMAIN/api`
+
+### Manual secrets
+
+Secrets are no longer stored in `backend/.env`. Use:
+
+- `backend/.env.example`
+- `frontend/.env.example`
+
+as the template, and enter the real values manually in Vercel.
 
 ## AWS student account modes
 
