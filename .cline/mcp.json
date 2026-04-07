@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "cloud-optimization": {
+      "url": "http://localhost:8000",
+      "tools": [
+        "get_account",
+        "get_dashboard",
+        "list_recommendations",
+        "accept_recommendation",
+        "reject_recommendation",
+        "recur_recommendation",
+        "list_events",
+        "clear_events",
+        "get_observability",
+        "clear_observability",
+        "get_chat_history",
+        "clear_chat_history",
+        "send_chat_message",
+        "onboard_account",
+        "suggest_next_action",
+        "get_aws_service_usage_pattern_data",
+        "analyze_codebase",
+        "get_datadog_metrics",
+        "get_aws_service_costs",
+        "get_aws_service_info",
+        "generate_cost_optimization_report",
+        "extract_codebase_services",
+        "get_observability_metrics",
+        "get_cost_breakdown",
+        "get_aws_service_info_v2",
+        "compare_aws_services",
+        "get_unified_report"
+      ]
+    }
+  }
+}
